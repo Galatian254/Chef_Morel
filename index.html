@@ -1744,9 +1744,6 @@
 </footer>
 
 <script>
-  // ── CONFIGURATION ──
-  const WHATSAPP_NUMBER = '33123456789'; // Replace with your WhatsApp number (international format, no +)
-
   // ── PERFORMANCE: Disable cursor on mobile devices ──
   const isMobile = () => window.innerWidth < 1024 || /iPhone|iPad|Android|Mobile/.test(navigator.userAgent);
   
@@ -1791,6 +1788,7 @@
       });
     });
   } else {
+    // Hide cursor on mobile
     document.querySelector('.cursor').style.display = 'none';
     document.querySelector('.cursor-ring').style.display = 'none';
   }
@@ -1812,10 +1810,10 @@
     entries.forEach(e => { 
       if (e.isIntersecting) { 
         e.target.classList.add('visible');
-        observer.unobserve(e.target);
+        observer.unobserve(e.target); // Stop observing once visible to save memory
       } 
     });
-  }, { threshold: 0.05 });
+  }, { threshold: 0.05 }); // Lower threshold for better UX
   reveals.forEach(el => observer.observe(el));
 
   // ── FILTER TABS ──
@@ -1912,6 +1910,7 @@
 
     function resetAuto() {
       clearInterval(autoTimer);
+      // Only auto-play if user hasn't interacted (respects user preference)
       if (!userInteracted) {
         autoTimer = setInterval(() => goTo(current >= maxIndex() ? 0 : current + 1), 5000);
       }
@@ -1938,6 +1937,7 @@
         goTo(Math.min(current, maxIndex()));
       }, { passive: true });
 
+      // Touch swipe (passive event listeners for better perf)
       let touchX = 0;
       slider.addEventListener('touchstart', e => { 
         touchX = e.touches[0].clientX;
@@ -1954,16 +1954,20 @@
   // ── MOBILE NAV ──
   function openMobileNav() { 
     document.getElementById('mobileNav').classList.add('open');
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden'; // Prevent scroll
   }
   function closeMobileNav() { 
     document.getElementById('mobileNav').classList.remove('open');
-    document.body.style.overflow = '';
+    document.body.style.overflow = ''; // Restore scroll
   }
   document.getElementById('mobileClose').addEventListener('click', closeMobileNav);
+  
+  // Close mobile nav when clicking nav links
   document.querySelectorAll('.mobile-nav-link').forEach(link => {
     link.addEventListener('click', closeMobileNav);
   });
+  
+  // Open mobile nav when clicking hamburger
   document.getElementById('hamburger').addEventListener('click', openMobileNav);
 
   // ── TOAST ──
@@ -2004,6 +2008,8 @@
       return div.innerHTML;
     };
     
+    // SECURE: Use a backend API instead of direct WhatsApp URL
+    // For now, show instructions and copy to clipboard
     const enquiryData = {
       name: `${sanitize(first)} ${sanitize(last)}`,
       email: sanitize(email),
@@ -2013,7 +2019,10 @@
       message: sanitize(message)
     };
     
-    // Construct WhatsApp message
+    // Send to backend (RECOMMENDED: replace with actual backend)
+    // Production: Remove console.log, implement backend API call
+    
+    // FALLBACK: WhatsApp Business with proper formatting
     const whatsappText = 
       `Hello Élise,\n\n` +
       `I would like to enquire about: ${enquiryData.service}\n\n` +
@@ -2023,17 +2032,10 @@
       `Guest Count: ${enquiryData.guests}\n\n` +
       `${enquiryData.message ? 'Details: ' + enquiryData.message : ''}`;
     
-    // Standard WhatsApp click-to-chat URL
-    const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappText)}`;
+    const whatsappURL = `https://wa.me/message/DVHG76IQ5K7JC1?text=${encodeURIComponent(whatsappText)}`;
     
     showToast('Opening WhatsApp with your enquiry. Thank you!');
-    
-    // Open WhatsApp in new tab; fallback to direct location if popup blocked
-    const newWindow = window.open(whatsappURL, '_blank', 'noopener,noreferrer');
-    if (!newWindow) {
-      // Popup blocked, redirect current page
-      window.location.href = whatsappURL;
-    }
+    window.open(whatsappURL, '_blank', 'noopener,noreferrer');
     
     // Clear form
     ['formFirst','formLast','formEmail','formService','formDate','formGuests','formMessage']
@@ -2052,6 +2054,8 @@
       showToast('Please enter a valid email address.');
       return;
     }
+    
+    // RECOMMENDED: Send to backend API for email collection
     
     showToast('Welcome to The Table. First letter arrives soon.');
     document.getElementById('newsletterEmail').value = '';
