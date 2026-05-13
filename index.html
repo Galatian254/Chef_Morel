@@ -2008,8 +2008,7 @@
       return div.innerHTML;
     };
     
-    // SECURE: Use a backend API instead of direct WhatsApp URL
-    // For now, show instructions and copy to clipboard
+    // Construct detailed enquiry data with all form fields
     const enquiryData = {
       name: `${sanitize(first)} ${sanitize(last)}`,
       email: sanitize(email),
@@ -2019,20 +2018,18 @@
       message: sanitize(message)
     };
     
-    // Send to backend (RECOMMENDED: replace with actual backend)
-    // Production: Remove console.log, implement backend API call
+    // Format message for WhatsApp with all details preserved
+    const whatsappMessage = 
+      `*NEW ENQUIRY FROM WEBSITE*\n\n` +
+      `👤 *Name:* ${enquiryData.name}\n` +
+      `📧 *Email:* ${enquiryData.email}\n` +
+      `🎯 *Service Requested:* ${enquiryData.service}\n` +
+      `📅 *Event Date:* ${enquiryData.date}\n` +
+      `👥 *Guest Count:* ${enquiryData.guests}\n\n` +
+      `*Details/Vision:*\n${enquiryData.message || 'No additional details provided'}`;
     
-    // FALLBACK: WhatsApp Business with proper formatting
-    const whatsappText = 
-      `Hello Élise,\n\n` +
-      `I would like to enquire about: ${enquiryData.service}\n\n` +
-      `Name: ${enquiryData.name}\n` +
-      `Email: ${enquiryData.email}\n` +
-      `Event Date: ${enquiryData.date}\n` +
-      `Guest Count: ${enquiryData.guests}\n\n` +
-      `${enquiryData.message ? 'Details: ' + enquiryData.message : ''}`;
-    
-    const whatsappURL = `https://wa.me/message/DVHG76IQ5K7JC1?text=${encodeURIComponent(whatsappText)}`;
+    // Send to WhatsApp Business API with full form data
+    const whatsappURL = `https://wa.me/message/DVHG76IQ5K7JC1?text=${encodeURIComponent(whatsappMessage)}`;
     
     showToast('Opening WhatsApp with your enquiry. Thank you!');
     window.open(whatsappURL, '_blank', 'noopener,noreferrer');
