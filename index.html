@@ -20,13 +20,13 @@
 <meta property="og:title" content="Élise Morel — Award-Winning Chef & Culinary Artist">
 <meta property="og:description" content="Michelin-starred chef offering private dining, event catering, and exclusive culinary experiences. Paris-based, globally available.">
 <meta property="og:url" content="https://elisemorel.com/">
-<meta property="og:image" content="https://images.unsplash.com/photo-1550966871-3ed3cdb51f3a?w=1200&h=630&fit=crop&q=90">
+<meta property="og:image" content="https://images.unsplash.com/photo-1750943082012-efe6d2fd9e45?w=1200&h=630&fit=crop&q=90&auto=format">
 <meta property="og:site_name" content="Élise Morel">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Élise Morel — Award-Winning Culinary Artist">
 <meta name="twitter:description" content="Michelin-starred chef offering private dining and event catering worldwide.">
-<meta name="twitter:image" content="https://images.unsplash.com/photo-1550966871-3ed3cdb51f3a?w=1200&h=630&fit=crop&q=90">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1750943082012-efe6d2fd9e45?w=1200&h=630&fit=crop&q=90&auto=format">
 
 <!-- Font Loading Optimization -->
 <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
@@ -37,7 +37,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
 <!-- Preload Hero Image for LCP Optimization -->
-<link rel="preload" as="image" href="https://images.unsplash.com/photo-1550966871-3ed3cdb51f3a?w=1800&q=85&auto=format&fit=crop" imagesrcset="https://images.unsplash.com/photo-1550966871-3ed3cdb51f3a?w=800&q=85&auto=format&fit=crop 800w, https://images.unsplash.com/photo-1550966871-3ed3cdb51f3a?w=1200&q=85&auto=format&fit=crop 1200w, https://images.unsplash.com/photo-1550966871-3ed3cdb51f3a?w=1800&q=85&auto=format&fit=crop 1800w" imagesizes="100vw">
+<link rel="preload" as="image" href="assets/hero-chef-plating.jpg">
 
 <!-- Schema.org Structured Data -->
 <script type="application/ld+json">
@@ -45,7 +45,7 @@
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
   "name": "Élise Morel — Culinary Artist",
-  "image": "https://images.unsplash.com/photo-1550966871-3ed3cdb51f3a?w=1200&h=630&fit=crop&q=90",
+  "image": "https://images.unsplash.com/photo-1750943082012-efe6d2fd9e45?w=1200&h=630&fit=crop&q=90&auto=format",
   "description": "Award-winning Michelin-starred chef offering private dining, event catering, and culinary experiences",
   "url": "https://elisemorel.com/",
   "telephone": "+33-1-23-45-67-89",
@@ -183,7 +183,27 @@
   #hero {
     position: relative; height: 100vh; min-height: 700px;
     display: flex; align-items: flex-end; justify-content: flex-start;
+    padding: 0;
     overflow: hidden;
+  }
+  .hero-media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 70% 35%, rgba(42,31,14,.75) 0%, transparent 56%),
+      linear-gradient(130deg, rgba(20,16,10,.85) 0%, rgba(8,8,6,.25) 48%, rgba(8,8,6,.95) 100%),
+      #080806;
+  }
+  .hero-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transform: scale(1.04);
+    filter: brightness(.5) saturate(.85);
   }
   .hero-bg {
     position: absolute; inset: 0;
@@ -271,6 +291,7 @@
   .hero-content {
     position: relative; z-index: 2;
     padding: 0 52px 80px;
+    width: 100%;
     max-width: 720px;
   }
   .hero-eyebrow {
@@ -1061,10 +1082,12 @@
     #booking { grid-template-columns: 1fr; gap: 52px; }
     .footer-top { grid-template-columns: 1fr 1fr; }
     .hero-content { padding: 0 28px 72px; }
+    .hero-media img { object-position: 58% center; }
     .hero-plate { display: none; }
     .accolades { gap: 32px; padding: 20px 28px; }
   }
   @media (max-width: 640px) {
+    .nav-cta { display: none; }
     .services-grid { grid-template-columns: 1fr; }
     .awards-strip { grid-template-columns: 1fr; }
     .form-row { grid-template-columns: 1fr; }
@@ -1072,11 +1095,26 @@
     .newsletter-form { flex-direction: column; }
     .newsletter-input { border-right: 1px solid rgba(201,168,76,.2); }
     .hero-ctas { flex-direction: column; }
+    .hero-eyebrow {
+      flex-wrap: wrap;
+      line-height: 1.5;
+      letter-spacing: .28em;
+    }
+    .hero-ctas .btn-primary {
+      width: 100%;
+      text-align: center;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
     .accolade-sep { display: none; }
     .booking-form { padding: 32px 24px; }
     .portfolio-grid { grid-template-columns: 1fr !important; }
     .portfolio-grid .dish-card { grid-column: span 1 !important; min-height: 260px !important; }
     .portfolio-grid.is-filtered { grid-template-columns: 1fr !important; }
+    .hero-media img {
+      object-position: 62% center;
+      transform: scale(1.02);
+    }
   }
 
   /* ── MOBILE NAV ── */
@@ -1159,19 +1197,14 @@
 <!-- HERO -->
 <section id="hero">
   <!-- Real hero background image - optimized for LCP -->
-  <div style="position:absolute;inset:0;z-index:0;overflow:hidden;">
+  <div class="hero-media" aria-hidden="true">
     <img
-      srcset="
-        https://images.unsplash.com/photo-1550966871-3ed3cdb51f3a?w=800&q=85&auto=format&fit=crop 800w,
-        https://images.unsplash.com/photo-1550966871-3ed3cdb51f3a?w=1200&q=85&auto=format&fit=crop 1200w,
-        https://images.unsplash.com/photo-1550966871-3ed3cdb51f3a?w=1800&q=85&auto=format&fit=crop 1800w"
-      sizes="100vw"
-      src="https://images.unsplash.com/photo-1550966871-3ed3cdb51f3a?w=1800&q=85&auto=format&fit=crop"
-      alt="Chef plating a signature dish"
-      style="width:100%;height:100%;object-fit:cover;object-position:center;transform:scale(1.04);filter:brightness(.5) saturate(.85);"
+      src="hero-chef-plating.jpg"
+      alt=""
       loading="eager"
       fetchpriority="high"
       decoding="async"
+      onerror="this.style.display='none'"
     >
   </div>
   <div class="hero-bg"></div>
